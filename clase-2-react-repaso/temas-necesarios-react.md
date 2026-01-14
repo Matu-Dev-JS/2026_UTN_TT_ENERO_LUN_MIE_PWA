@@ -1,0 +1,12 @@
+- Componentes
+- Renderizado condicional
+- JSX (Conocer que sucede si coloco {} o el tipo de dato JSX) (1)
+- Props (1)
+- Estados (1)
+- useEffect (1)
+- react-router (9)
+    - Como hacer un enrutador
+    - useParams (como configurar y obtener parametros de busqueda) (1)
+    - <Oulet/>
+- formularios (controlados y no controlados) (1)
+- Contexto (/ redux / zustand variantes validas que no vemos en cursada) (opcional pero MUY recomendable) (10)
