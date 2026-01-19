@@ -47,13 +47,13 @@ let dato_random : any = undefined
 /* Carrito de compras */
 /* 
 Guardar en una variable el estado del carrito de compras
-Cada elemento del carrito sera { id: number, quantity: number, title: string }
+Cada elemento del carrito sera { id: number, quantity: number, title: string, precio: number }
 Crear las siguientes funciones:
-    - agregarAlCarrito(id, title, cantidad)
+    - agregarAlCarrito(id, title, cantidad, precio)
     - eliminarDelCarrito(id) : Busca el item por id y lo elimina
     - quitarUnaUnidadDelCarrito(id) : Busca el item por id y verifica la cantidad
         - si es 1 entonces lo elimina
         - si es mas de uno entonces decrementa su cantidad en 1
     - vaciarCarrito() : Vacia el carrito
-    - calcularTotal() : Retornara un numero con el total del carrito
+    - calcularTotal() : Retornara un numero con el precio total del carrito
 */
