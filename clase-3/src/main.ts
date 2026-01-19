@@ -50,6 +50,7 @@ Guardar en una variable el estado del carrito de compras
 Cada elemento del carrito sera { id: number, quantity: number, title: string, precio: number }
 Crear las siguientes funciones:
     - agregarAlCarrito(id, title, cantidad, precio)
+        - si el item ya esta en el carrito, entonces simplemente incrementa la cantidad si no lo agrega
     - eliminarDelCarrito(id) : Busca el item por id y lo elimina
     - quitarUnaUnidadDelCarrito(id) : Busca el item por id y verifica la cantidad
         - si es 1 entonces lo elimina
@@ -57,3 +58,4 @@ Crear las siguientes funciones:
     - vaciarCarrito() : Vacia el carrito
     - calcularTotal() : Retornara un numero con el precio total del carrito
 */
+
