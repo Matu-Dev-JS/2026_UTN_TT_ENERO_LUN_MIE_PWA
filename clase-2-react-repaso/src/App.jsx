@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ToDoList from './Components/ToDoList/ToDoList'
 import AddNewTaskForm from './Components/AddNewTaskForm/AddNewTaskForm'
 import LastTaskAdded from './Components/LastTaskAdded/LastTaskAdded'
@@ -8,8 +8,20 @@ import ToDoListScreen from './Screens/ToDoListScreen/ToDoListScreen'
 
 function App() {
   let titulo = <h1>Hola</h1>
+  const [counterState, setCounterState] = useState(0)
+
+
+  function increment (){
+    setCounterState((prevCounterState) => prevCounterState + 1)
+    setCounterState((prevCounterState) => prevCounterState + 1)
+    setCounterState((prevCounterState) => prevCounterState + 1)
+  }
+
+  
   return (
     <>
+      <span>{counterState}</span>
+      <button onClick={increment}>Incrementar</button>
       <Routes>
         <Route path='/tasks' element={<ToDoListScreen/>}/>
         <Route path='/' element={<h1>Bienvenido</h1>}/>
@@ -49,3 +61,5 @@ Coinsideraciones:
   - Dividir en componentes el sidebar por funcionalidad
   - Usar estados para guardar el estado del sidebar
 */
+
+
