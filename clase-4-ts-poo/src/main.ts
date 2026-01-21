@@ -39,6 +39,26 @@ class Persona {
 const persona_1 = new Persona('pepe', 40)
 persona_1.presentarse()
 
+class Caballero extends Persona {
+  profesion: string = 'caballero'
+  ingresoMensual: number
+  aniosExperiencia: number
+  constructor(nombre: string, edad: number, ingresoMensual: number, aniosExperiencia: number) {
+    super(nombre, edad)
+    this.ingresoMensual = ingresoMensual
+    this.aniosExperiencia = aniosExperiencia
+
+  }
+
+  //Ojo, presentarse ya esta en la clase padre, por ende por buenas practicas debe tener los mismos parametros y valores de devolucion
+  presentarse(): void {
+    console.log("Hola soy el caballero sir " + this.nombre)
+  }
+}
+
+const lancelot = new Caballero('Lancelot', 42, 1000, 10)
+lancelot.presentarse()
+
 /* 
 Item
   - id
@@ -144,7 +164,7 @@ Tendra la responsabilidad de manejar el sistema de items de la app
     Ejemplo: Si el limite es 4 significa que no puedo tener en inventario mas de 4 lapiceras distintas, pero si puedo tener 100 de cada tipo
 
 - metodos
-  - agregarItem(item) 
+  - agregarItem(item: Item) 
     Evaluara si el id del item agregado ya esta en la lista de items y en caso de estar solo incrementara la cantidad
     Si no esta entonces evaluara si no se llego al limite y en caso de no haber llegado agregara el item con cantidad 1
   
@@ -161,3 +181,73 @@ new ItemManager ({max_size: 4})
 //Por el el momento no vamos a conectar el inventario al personaje
 */
 
+
+class ItemInventario{
+  id: number
+  precio: number
+  nivel: number
+  titulo: string
+  description: string
+  cantidad: number
+  constructor(
+    id: number,
+    precio: number,
+    nivel: number,
+    titulo: string,
+    description: string,
+    cantidad: number = 1
+  ) {
+    this.id = id
+    this.precio = precio
+    this.nivel = nivel
+    this.titulo = titulo
+    this.description = description
+    this.cantidad = cantidad
+  }
+}
+
+class Inventario {
+  limite_de_items: number
+  items: ItemInventario[] = [] // Inicializamos la propiedad
+  constructor(limite_de_items: number){
+    this.limite_de_items = limite_de_items
+  }
+
+  buscarItemPorId (id: number): null | ItemInventario {
+    return this.items.find(item => item.id === id) || null
+  } 
+  // Metodo agregarUnItem para agregar items al inventario:
+  agregarUnItem(item: Item): void{
+    const itemExistente = this.buscarItemPorId(item.id)
+    if (itemExistente){
+      itemExistente.cantidad++
+      return
+    }
+    if (this.items.length < this.limite_de_items){
+      const nuevo_item = new ItemInventario(item.id, item.price, item.level, item.title, item.description, 1)
+      this.items.push(nuevo_item)
+    }
+  }
+  
+    // Método eliminarUnItem para eliminar items del inventario:
+    eliminarUnItem(item_id: number): void {
+      this.items = this.items.filter(item => item.id !== item_id)
+    }
+    // Método soltarUnItem para soltar items del inventario:
+    soltarUnItem(item_id: number): void{
+      const item = this.buscarItemPorId(item_id)
+      if (!item) return
+      if (item.cantidad > 1){
+        item.cantidad--
+      } else {
+        this.eliminarUnItem(item_id)
+      }
+    }
+}
+const inventarioNaruto = new Inventario(4)
+/* 
+inventarioNaruto.agregarUnItem(item1)
+inventarioNaruto.agregarUnItem(item1)
+inventarioNaruto.soltarUnItem(item1.id)
+inventarioNaruto.soltarUnItem(item1.id)
+console.log(inventarioNaruto.items) */
