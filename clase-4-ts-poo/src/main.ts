@@ -122,3 +122,41 @@ const character = new Character(1, "Aragorn", 100, [item1, item2, item3]);
 console.log(
   `Personaje: ${character.name} (Id: ${character.id}) - Vida: ${character.life} \n Items: \n${item1.showInfo()} \n ${item2.showInfo()} \n ${item3.showInfo()}`,
 );
+
+/* 
+
+ItemInventario
+Se usara para representar cada item dentro del Inventario
+  - id
+  - precio
+  - nivel
+  - titulo
+  - descripcion
+  - cantidad
+
+Inventario
+Tendra la responsabilidad de manejar el sistema de items de la app
+- propiedades:
+  - limite_items
+  - items[] : ItemInventario
+- parametro configurable: 
+  - limite de items
+
+- metodos
+  - agregarItem(item) 
+    Evaluara si el id del item agregado ya esta en la lista de items y en caso de estar solo incrementara la cantidad
+    Si no esta entonces evaluara si no se llego al limite y en caso de no haber llegado agregara el item con cantidad 1
+  
+  - eliminarItem(item_id)
+    Eliminar el item de la lista de items
+
+  - soltarUnItem(item_id)
+    Evaluara si la cantidad de items con ese id es mayor a 1 y en ese caso disminuira la cantidad en 1
+    Sino lo eliminara
+
+
+new ItemManager ({max_size: 4})
+
+//Por el el momento no vamos a conectar el inventario al personaje
+*/
+
