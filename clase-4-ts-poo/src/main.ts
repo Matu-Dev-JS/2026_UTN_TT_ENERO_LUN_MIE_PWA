@@ -26,12 +26,12 @@ class Persona {
   nombre: string = ''
   edad: number
 
-  constructor (nombre: string, edad: number){
+  constructor(nombre: string, edad: number) {
     this.edad = edad
     this.nombre = nombre
   }
 
-  presentarse(): void{
+  presentarse(): void {
     console.log("Hola mi nombre es " + this.nombre)
   }
 }
@@ -55,3 +55,70 @@ Personaje
 
 Crear 3 items y un personaje con datos random
 */
+
+class Item {
+  id: number;
+  price: number;
+  level: number;
+  title: string;
+  description: string;
+
+  constructor(
+    id: number,
+    price: number,
+    level: number,
+    title: string,
+    description: string,
+  ) {
+    this.id = id;
+    this.price = price;
+    this.level = level;
+    this.title = title;
+    this.description = description;
+  }
+
+  showInfo(): string {
+    return `Item: ${this.title} - (Id: ${this.id}) \n Precio: ${this.price} \n Nivel: ${this.level} \n Descripción: ${this.description}`;
+  }
+}
+class Character {
+  id: number;
+  name: string;
+  life: number;
+  items: Item[];
+
+  constructor(id: number, name: string, life: number, items: Item[]) {
+    this.id = id;
+    this.name = name;
+    this.life = life;
+    this.items = items;
+  }
+}
+
+const item1 = new Item(
+  1,
+  100,
+  5,
+  "Espada de Fuego",
+  "Una espada que arde con llamas intensas.",
+);
+const item2 = new Item(
+  2,
+  150,
+  7,
+  "Escudo de Madera",
+  "Un escudo resistente hecho de madera.",
+);
+const item3 = new Item(
+  3,
+  200,
+  10,
+  "Poción de Vida",
+  "Una poción que restaura la salud.",
+);
+
+const character = new Character(1, "Aragorn", 100, [item1, item2, item3]);
+
+console.log(
+  `Personaje: ${character.name} (Id: ${character.id}) - Vida: ${character.life} \n Items: \n${item1.showInfo()} \n ${item2.showInfo()} \n ${item3.showInfo()}`,
+);
