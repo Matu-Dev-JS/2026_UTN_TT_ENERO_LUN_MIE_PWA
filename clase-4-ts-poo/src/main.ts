@@ -140,7 +140,8 @@ Tendra la responsabilidad de manejar el sistema de items de la app
   - limite_items
   - items[] : ItemInventario
 - parametro configurable: 
-  - limite de items
+  - limite de items: Es el limite de items distintos que puede almacenar un inventario.
+    Ejemplo: Si el limite es 4 significa que no puedo tener en inventario mas de 4 lapiceras distintas, pero si puedo tener 100 de cada tipo
 
 - metodos
   - agregarItem(item) 
