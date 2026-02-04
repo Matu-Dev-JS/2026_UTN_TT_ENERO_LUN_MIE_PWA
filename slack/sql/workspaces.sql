@@ -1,0 +1,7 @@
+CREATE TABLE workspaces (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(30) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+    description TEXT(1000) NOT NULL,
+    url_image TEXT(1000)
+)
