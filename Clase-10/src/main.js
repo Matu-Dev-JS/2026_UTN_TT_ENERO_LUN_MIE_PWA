@@ -1,7 +1,17 @@
 import ENVIRONMENT from "./config/environment.config.js"
 import connectMongoDB from "./config/mongoDB.config.js"
+import User from "./models/user.model.js"
 
-console.log('hola mundo')
-console.log(ENVIRONMENT.MONGO_DB_CONNECTION_STRING)
+
 
 connectMongoDB()
+
+async function crearUsuario (username, email, password){
+    await User.create({
+        name: username,
+        email: email,
+        password: password
+    })
+}
+
+crearUsuario('Test', 'test@gmail.com', 'Test_123')
