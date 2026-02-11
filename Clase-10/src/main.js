@@ -31,6 +31,7 @@ createWorkspace(
 createWorkspace("Salida"); */
 
 async function createMember (id_user, id_workpace, role = 'user'){
+    
     await WorkspaceMember.create({
         fk_id_user: id_user,
         fk_id_workspace: id_workpace,
