@@ -34,7 +34,15 @@ class WorkspaceMemberRepository {
         await WorkspaceMember.find()
     }
     async getMemberList(fk_id_workspace) {
+
+        /* 
+        con el metodo populate podemos traer los datos relacionados a las referencias que tenemos en el modelo, en este caso fk_id_user y fk_id_workspace.
+        Entonces si quiero traer el nombre de usuario de cada miembro podria hacer un populate de fk_id_user y seleccionar solo el campo name, quedando asi:
+        */
+
         const members = await WorkspaceMember.find({ fk_id_workspace: fk_id_workspace })
+        .populate('fk_id_user', 'name email')
+        .populate('fk_id_workspace', 'title description')
         console.log(members)
         return members
     }
