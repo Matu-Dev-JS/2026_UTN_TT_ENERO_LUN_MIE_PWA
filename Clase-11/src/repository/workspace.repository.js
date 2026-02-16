@@ -8,24 +8,23 @@ Crear la class WorkspaceRepository con los sig metodos:
 
 import WorkspaceModel from "../models/workspace.model.js";
 class WorkspaceRepository {
-    async create(name, email, password, url_image, active) {
+    async create(title, description, url_image, active) {
         const user = await WorkspaceModel.create({
-            name: name,
-            email: email,
-            password: password,
+            title: title,
+            description: description,
             url_image,
             active
         })
         console.log("Workspace created: ", user);
     };
-    async deleteById(user_id) {
-        await WorkspaceModel.findByIdAndDelete(user_id);
+    async deleteById(workspace_id) {
+        await WorkspaceModel.findByIdAndDelete(workspace_id);
     };
-    async getById(user_id) {
-        return await WorkspaceModel.findById(user_id)
+    async getById(workspace_id) {
+        return await WorkspaceModel.findById(workspace_id)
     };
-    async updateById(user_id, new_user_props) {
-        const new_user = WorkspaceModel.findByIdAndUpdate(user_id, new_user_props, { new: true })
+    async updateById(workspace_id, new_workspace_props) {
+        const new_user = WorkspaceModel.findByIdAndUpdate(workspace_id, new_workspace_props, { new: true })
         return new_user;
     };
 }
