@@ -43,8 +43,26 @@ class WorkspaceMemberRepository {
         const members = await WorkspaceMember.find({ fk_id_workspace: fk_id_workspace })
         .populate('fk_id_user', 'name email')
         .populate('fk_id_workspace', 'title description')
-        console.log(members)
-        return members
+        
+        const members_mapped = members.map(
+            (member) => {
+                return {
+                    member_id: member._id,
+                    member_role: member.role,
+                    member_created_at: member.created_at,
+                    
+                    user_id: member.fk_id_user._id,
+                    user_name: member.fk_id_user.name,
+                    user_email: member.fk_id_user.email,
+                    
+                    workspace_id: member.fk_id_workspace._id,
+                    workspace_title: member.fk_id_workspace.title,
+                    workspace_description: member.fk_id_workspace.description
+                }
+            }
+        )
+        console.log(members_mapped)
+        return members_mapped
     }
 }
 const workspaceMemberRepository = new WorkspaceMemberRepository()
