@@ -25,5 +25,5 @@ const missionSchema = new mongoose.Schema(
         }
     }
 )
-const misionModel= mongoose.Model('Mission', missionSchema);
+const misionModel = mongoose.model('Mission', missionSchema);
 export default misionModel;

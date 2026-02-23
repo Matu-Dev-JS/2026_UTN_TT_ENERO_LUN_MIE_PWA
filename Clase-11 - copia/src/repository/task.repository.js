@@ -13,8 +13,8 @@ class TaskRepository {
     async updateCompletedById(task_id, new_value) {
         const updatedElement = await Task.findByIdAndUpdate(
             task_id,
-            { completed: new_value, end_at: new_value === true ? new Date() : null},
-            { new: true } 
+            { completed: new_value, end_at: new_value === true ? new Date() : null },
+            { new: true }
         );
         return updatedElement;
     };
@@ -30,7 +30,15 @@ class TaskRepository {
         );
         return updatedElement;
     };
+
+    async getTasksByMissionId(mission_id) {
+        return await Task.find({ fk_id_mission: mission_id });
+    }
+
+    async createMany(tasks_to_create){
+        await Task.insertMany(tasks_to_create)
+    }
 };
 
 const taskRepository = new TaskRepository()
-
+export default taskRepository
