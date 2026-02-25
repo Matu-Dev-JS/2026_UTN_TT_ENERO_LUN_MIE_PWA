@@ -1,1 +1,5 @@
-console.log('Hola mundo')
+import ENVIRONMENT from "./config/environment.config.js"
+
+
+
+console.log(ENVIRONMENT)
