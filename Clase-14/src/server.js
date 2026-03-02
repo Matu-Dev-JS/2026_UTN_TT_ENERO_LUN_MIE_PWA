@@ -287,15 +287,69 @@ app.get("/api/tareas/:tarea_id", (req, res) => {
         (tarea) => Number(tarea.id) === Number(tarea_id),
     );
     if (!tarea_selected) {
-    return res.status(404).json({
-        mensaje: "Tarea no encontrada",
-        status: 404 //ESTE NUMERO ES MI ELECCION, NO SIGUE ALGUNA PRACTICA O CONVENCION DE LOS STATUS DE RESPUESTA HTTP
-    });
+        return res.status(404).json({
+            mensaje: "Tarea no encontrada",
+            status: 404 //ESTE NUMERO ES MI ELECCION, NO SIGUE ALGUNA PRACTICA O CONVENCION DE LOS STATUS DE RESPUESTA HTTP
+        });
     } else {
         return res.status(200).json({
             message: "Tarea encontrada",
             status: 200,
             data: { tarea: tarea_selected },
+        });
+    }
+});
+
+app.put(
+    '/api/tareas/:tarea_id/status',
+    (request, response) => {
+        const { tarea_id } = request.params
+        const { status } = request.body
+        const tareaSeleccionada = tareas.find((tarea) => Number(tarea.id) === Number(tarea_id))
+        if (!tareaSeleccionada) {
+            return response.status(404).json(
+                {
+                    errorMessage: 'tarea no encontrada',
+                    status: 404
+                }
+            )
+        }
+
+        if (status) {
+            tareaSeleccionada.finalizado = true
+            tareaSeleccionada.finalizado_en = new Date()
+        } else {
+            tareaSeleccionada.finalizado = false
+            tareaSeleccionada.finalizado_en = null
+        }
+        return response.status(200).json(
+            {
+                message: 'tarea actualizada',
+                status: 200,
+                data: {
+                    tarea: tareaSeleccionada
+                }
+            }
+        )
+    }
+)
+
+app.delete("/api/tareas/:tarea_id", (req, res) => {
+    const id = parseInt(req.params.tarea_id);
+    const taskIndex = tareas.findIndex((tarea) => tarea.id === id);
+    if (taskIndex === -1) {
+          return res.status(404).json({
+            status: "error",
+            result: "Task not found",
+        });
+
+    } else {
+        tareas.splice(taskIndex, 1);
+        return res.json({
+            status: "success",
+            result: {
+                tareas
+            },
         });
     }
 });
