@@ -32,6 +32,8 @@ const products = [
     }
 ]
 
+
+
 /* app.post(
     '/api/products',
     (request, response) => {
@@ -234,6 +236,7 @@ Si se busca hacer cierta accion sobre una tarea no existe responder con un mensa
 const tareas = []
 
 app.post("/api/tareas", (req, res) => {
+
     const { titulo, descripcion, tiempo_estimado_en_hrs } = req.body;
     //Opcional: Validar el body de la solicitud
     const newTask = {
@@ -246,10 +249,53 @@ app.post("/api/tareas", (req, res) => {
         finalizado: false
     };
     tareas.push(newTask);
-    return res.json({
-        message: "Tarea creada con exito",
+    return res.status(201).json({
+        mensaje: "Tarea creada con exito",
         data: {
             tareas
         }
     });
+});
+
+
+
+/* 
+
+GET /api/tareas
+    Debera devolver la lista de tareas
+
+GET /api/tareas/:tarea_id 
+    Devolver la tarea por su ID
+*/
+
+app.get(
+    '/api/tareas',
+    (request, response) => {
+
+        return response.json({
+            mensaje: "Lista de tareas obtenida con exito",
+            data: {
+                tareas
+            }
+        })
+    }
+)
+
+app.get("/api/tareas/:tarea_id", (req, res) => {
+    const { tarea_id } = req.params;
+    const tarea_selected = tareas.find(
+        (tarea) => Number(tarea.id) === Number(tarea_id),
+    );
+    if (!tarea_selected) {
+    return res.status(404).json({
+        mensaje: "Tarea no encontrada",
+        status: 404 //ESTE NUMERO ES MI ELECCION, NO SIGUE ALGUNA PRACTICA O CONVENCION DE LOS STATUS DE RESPUESTA HTTP
+    });
+    } else {
+        return res.status(200).json({
+            message: "Tarea encontrada",
+            status: 200,
+            data: { tarea: tarea_selected },
+        });
+    }
 });
