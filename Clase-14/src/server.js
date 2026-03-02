@@ -228,4 +228,28 @@ ENDPOINTS:
 
 Aclaracion: Para guardar una fecha usar new Date()
 Si se busca hacer cierta accion sobre una tarea no existe responder con un mensaje que diga que dicho recurso no existe.
+
 */
+
+const tareas = []
+
+app.post("/api/tareas", (req, res) => {
+    const { titulo, descripcion, tiempo_estimado_en_hrs } = req.body;
+    //Opcional: Validar el body de la solicitud
+    const newTask = {
+        id: tareas.length + 1,
+        titulo: titulo,
+        descripcion: descripcion,
+        tiempo_estimado_en_hrs: tiempo_estimado_en_hrs,
+        creado_en: new Date(),
+        finalizado_en: null,
+        finalizado: false
+    };
+    tareas.push(newTask);
+    return res.json({
+        message: "Tarea creada con exito",
+        data: {
+            tareas
+        }
+    });
+});
