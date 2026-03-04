@@ -10,6 +10,25 @@ healthRouter.get(
 )
 
 healthRouter.get(
+    '/page',
+    (request, response) => {
+        return response.status(200).send(
+            `
+                <html>
+                    <head>
+                        <title>Health Check</title>
+                    </head>
+                    <body>
+                        <h1>Health Check</h1>
+                        <p>API is running correctly.</p>
+                    </body>
+                </html>
+            `
+        )
+    }
+)
+
+healthRouter.get(
     '/database',
     healthController.getDB
 )
