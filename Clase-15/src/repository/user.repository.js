@@ -32,7 +32,11 @@ class UserRepository {
         return user
     }
 
-
+    //llama a algun usuario de la DB
+    async getUser(){
+        const user = await User.findOne()
+        return user
+    }
 }
 
 
