@@ -7,4 +7,9 @@ authRouter.post(
     authController.register
 )
 
+authRouter.post(
+    '/login', 
+    authController.login
+)
+
 export default authRouter
