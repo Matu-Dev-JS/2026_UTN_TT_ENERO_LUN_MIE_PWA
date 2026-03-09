@@ -8,6 +8,7 @@ import userRepository from "./repository/user.repository.js"
 import workspaceRepository from "./repository/workspace.repository.js"
 import express from 'express';
 import healthRouter from "./routes/health.router.js"
+import authRouter from "./routes/auth.router.js"
 
 
 
@@ -15,13 +16,14 @@ connectMongoDB()
 
 
 const app = express()
+app.use(express.json())
 
 
 /* 
 Delegamos las consultas que vengan sobre '/api/health' al healthRouter
 */
 app.use('/api/health', healthRouter)
-
+app.use('/api/auth', authRouter)
 
 app.listen(
     ENVIRONMENT.PORT, 

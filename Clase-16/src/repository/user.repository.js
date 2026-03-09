@@ -37,6 +37,11 @@ class UserRepository {
         const user = await User.findOne()
         return user
     }
+
+     async getByUsername(name) {
+        const user = await User.findOne({name: name})
+        return user
+    }
 }
 
 
