@@ -9,6 +9,7 @@ import workspaceRepository from "./repository/workspace.repository.js"
 import express from 'express';
 import healthRouter from "./routes/health.router.js"
 import authRouter from "./routes/auth.router.js"
+import mailerTransporter from "./config/mailer.config.js"
 
 
 
@@ -32,4 +33,13 @@ app.listen(
     }
 )
 
+
+mailerTransporter.sendMail(
+    {
+        from: ENVIRONMENT.MAIL_USER,
+        to: ENVIRONMENT.MAIL_USER,
+        subject: 'Test de envio de email',
+        html: '<h1>Si recibis este email, el sistema de envio de emails funciona correctamente</h1>'
+    }
+)
 
