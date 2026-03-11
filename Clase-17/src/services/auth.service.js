@@ -9,6 +9,7 @@ import ENVIRONMENT from "../config/environment.config.js";
 import mailerTransporter from "../config/mailer.config.js";
 import ServerError from "../helpers/error.helper.js";
 import userRepository from "../repository/user.repository.js";
+import bcrypt from 'bcrypt'
 
 class AuthService {
     async register({ name, email, password }) {
@@ -24,7 +25,8 @@ class AuthService {
         if (userByUsername) {
             throw new ServerError('Nombre de usuario ya en uso!', 400)
         }
-        const userCreated = await userRepository.create(name, email, password);
+        const passwordHashed = await bcrypt.hash(password, 12)
+        const userCreated = await userRepository.create(name, email, passwordHashed);
         await this.sendVerifyEmail({email, name})
         
     }
@@ -76,6 +78,28 @@ class AuthService {
             }
         }
 
+    }
+
+    async login({email, password}){
+        const user = await userRepository.getByEmail(email);
+        if (!user) {
+            throw new ServerError('Usuario no encontrado', 404);
+        }
+        const is_same_password = await bcrypt.compare(password, user.password)
+        if (!is_same_password) {
+            throw new ServerError('Contraseña incorrecta', 401);
+        }
+        
+        const auth_token = jwt.sign(
+            {
+                email: user.email,
+                name: user.name,
+                id: user._id,
+                created_at: user.created_at
+            },
+            ENVIRONMENT.JWT_SECRET_KEY
+        )
+        return auth_token
     }
 
 

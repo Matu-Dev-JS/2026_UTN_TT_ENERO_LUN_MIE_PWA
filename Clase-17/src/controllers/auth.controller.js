@@ -45,17 +45,14 @@ class AuthController {
     async login(req, res) {
         try {
             const { email, password } = req.body;
-            const user = await userRepository.getByEmail(email);
-            if (!user) {
-                throw new ServerError('Usuario no encontrado', 404);
-            }
-            if (user.password !== password) {
-                throw new ServerError('Contraseña incorrecta', 401);
-            }
+            const auth_token = await authService.login({email, password})
             return res.status(200).json({
                 message: "Login successful",
                 status: 200,
                 ok: true,
+                data: {
+                    auth_token: auth_token
+                }
             });
         } 
         catch (error) {
@@ -119,3 +116,17 @@ class AuthController {
 }
 const authController = new AuthController();
 export default authController
+
+/* 
+Hacer el flujo de restablecimiento de contraseña
+
+POST /api/auth/reset-password-request
+    body: {email}
+    Esto enviara un mail al email proporcionado con un link para restablecer la password, ese link tendra un JWT firmado con datos del usuario como el email o id.
+    
+Por otro lado desarrollaran el 
+    POST /api/auth/reset-password/:reset_token
+    body: {new_password}
+    El backend valida el token enviado y la nueva contraseña, si todo esta bien cambia la password
+
+*/
