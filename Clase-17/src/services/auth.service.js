@@ -24,20 +24,79 @@ class AuthService {
         if (userByUsername) {
             throw new ServerError('Nombre de usuario ya en uso!', 400)
         }
+        const userCreated = await userRepository.create(name, email, password);
+        await this.sendVerifyEmail({email, name})
+        
+    }
 
+    async verifyEmail({ verify_email_token }) {
+        if (!verify_email_token) {
+            throw new ServerError('No se encuentra el token', 400)
+        }
+
+        //ESTO ES CLAVE
+        //Gracias a esto sabremos si el token fue creado por nosotros
+        try {
+            const {email, name} = jwt.verify(verify_email_token, ENVIRONMENT.JWT_SECRET_KEY)
+            const user = await userRepository.getByEmail(email)
+            if(!user){
+                throw new ServerError('El usuario no existe', 404)
+            }
+            else if(user.email_verified){
+                throw new ServerError('Usuario con email ya validado', 400)
+            }
+            else{
+                const user_updated = await userRepository.updateById(
+                    user._id,
+                    {email_verified: true}
+                )
+                if(!user_updated.email_verified){
+                    throw new ServerError('Usuario no se pudo actualizar', 400)
+                }
+                else{
+                    return user_updated
+                }
+            }
+        }
+        catch (error) {
+            if (error instanceof jwt.TokenExpiredError) {
+
+                //ESto nos permite leer el token pero no verificar firma
+                const {email, name} = jwt.decode(verify_email_token)
+                //Enviar otro mail de verificacion
+                await this.sendVerifyEmail({email, name})
+                throw new  ServerError('El token de verificacion expiro', 401)
+            }
+            else if(error instanceof jwt.JsonWebTokenError){
+                throw new ServerError('Token invalido', 401)
+            }
+            //SIno es error de JWT que el error siga el flujo normal
+            else{
+                throw error
+            }
+        }
+
+    }
+
+
+    async sendVerifyEmail({email, name}) {
         //Se crea un token firmado por el backend con el email del usuario a registrar
         const verify_email_token = jwt.sign(
             {
-                email: email
+                email: email,
+                name: name
             },
-            ENVIRONMENT.JWT_SECRET_KEY
+            ENVIRONMENT.JWT_SECRET_KEY,
+            {
+                expiresIn: '7d'
+            }
         )
         await mailerTransporter.sendMail(
             {
                 from: ENVIRONMENT.MAIL_USER,
-                to: email, 
+                to: email,
                 subject: `Bienvenido ${name} verifica tu correo electronico`,
-                html:`
+                html: `
                     <h1>Bienvenido ${name}</h1>
                     <p>Te has registrado correctamente, necesitamos verificar tu correo electronico</p>
                     <a href="${ENVIRONMENT.URL_BACKEND + `/api/auth/verify-email?verify_email_token=${verify_email_token}`}">Click aqui para verificar</a>
@@ -46,7 +105,6 @@ class AuthService {
             }
         )
 
-        const userCreated = await userRepository.create(name, email, password);
     }
 }
 

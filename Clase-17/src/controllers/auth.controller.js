@@ -82,6 +82,40 @@ class AuthController {
         }
     }
 
+    async verifyEmail (request, response){
+        try{
+            const {verify_email_token} = request.query
+
+            await authService.verifyEmail({verify_email_token})
+        
+            response.status(200).send(`<h1>Mail verificado exitosamente</h1>`)
+        }
+        catch(error){
+             //Errores esperables en el sistema
+            if (error instanceof ServerError) {
+                return response.status(error.status).json(
+                    {
+                        ok: false,
+                        status: error.status,
+                        message: error.message
+                    }
+                )
+            }
+            
+            else {
+                console.error('Error inesperado en el login', error)
+                return response.status(500).json(
+                    {
+                        ok: false,
+                        status: 500,
+                        message: "Internal server error"
+                    }
+                )
+            }
+        }
+        
+    }
+
 }
 const authController = new AuthController();
 export default authController

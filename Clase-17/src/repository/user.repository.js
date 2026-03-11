@@ -18,11 +18,11 @@ class UserRepository {
         return await User.findById(user_id)
     }
 
-    async  updateById(new_user_props) {
+    async  updateById(id, new_user_props) {
         const new_user = await User.findByIdAndUpdate(
-            new_user_props.id, 
+            id, 
             new_user_props, 
-            { new: true } //Esto hara que devuelva el objeto actualizado
+            {returnDocument: 'after'}
         )
         return new_user
     }
