@@ -34,7 +34,7 @@ app.listen(
 )
 
 
-mailerTransporter.sendMail(
+/* mailerTransporter.sendMail(
     {
         from: ENVIRONMENT.MAIL_USER,
         to: ENVIRONMENT.MAIL_USER, //Aca va a donde quieren enviar
@@ -42,4 +42,4 @@ mailerTransporter.sendMail(
         html: '<h1>Si recibis este email, el sistema de envio de emails funciona correctamente</h1>'
     }
 )
-
+ */
