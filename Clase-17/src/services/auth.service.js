@@ -4,7 +4,7 @@ Registro:
     - Validar que no exista previamente el usuario
     - Enviar un mail de verificacion de correo electronico
 */
-
+import jwt from 'jsonwebtoken'
 import ENVIRONMENT from "../config/environment.config.js";
 import mailerTransporter from "../config/mailer.config.js";
 import ServerError from "../helpers/error.helper.js";
@@ -25,6 +25,13 @@ class AuthService {
             throw new ServerError('Nombre de usuario ya en uso!', 400)
         }
 
+        //Se crea un token firmado por el backend con el email del usuario a registrar
+        const verify_email_token = jwt.sign(
+            {
+                email: email
+            },
+            ENVIRONMENT.JWT_SECRET_KEY
+        )
         await mailerTransporter.sendMail(
             {
                 from: ENVIRONMENT.MAIL_USER,
@@ -33,7 +40,7 @@ class AuthService {
                 html:`
                     <h1>Bienvenido ${name}</h1>
                     <p>Te has registrado correctamente, necesitamos verificar tu correo electronico</p>
-                    <a href="${ENVIRONMENT.URL_BACKEND + `/api/auth/verify-email?email=${email}`}">Click aqui para verificar</a>
+                    <a href="${ENVIRONMENT.URL_BACKEND + `/api/auth/verify-email?verify_email_token=${verify_email_token}`}">Click aqui para verificar</a>
                     <span>Si no reconoces este registro desestima este mail.</span>
                 `
             }
