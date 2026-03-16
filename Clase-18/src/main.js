@@ -10,13 +10,17 @@ import express from 'express';
 import healthRouter from "./routes/health.router.js"
 import authRouter from "./routes/auth.router.js"
 import mailerTransporter from "./config/mailer.config.js"
-
+import cors from 'cors'
 
 
 connectMongoDB()
 
 
 const app = express()
+
+
+app.use(cors())
+
 app.use(express.json())
 
 
