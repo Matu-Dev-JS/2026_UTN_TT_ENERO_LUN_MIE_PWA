@@ -7,6 +7,10 @@ const RegisterScreen = () => {
         PASSWORD: 'password'
     }
 
+    /* 
+    Implementar el useForm para este formulario de registro
+    */
+
   return (
     <div>
         <h1>
