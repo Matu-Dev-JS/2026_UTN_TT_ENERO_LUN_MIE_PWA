@@ -23,3 +23,26 @@ export async function login ({email, password}){
 async function register (){
 
 }
+
+export async function resetPasswordRequest ({email}){
+    /* 
+    fetch sirve para hacer consultas HTTP
+    */
+     const response_http = await fetch(
+        'http://localhost:8080/api/auth/reset-password-request',
+        {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json" //Indica que enviamos un JSON
+            },
+            body: JSON.stringify( // Convertimos el objeto a JSON
+                {
+                    email
+                }
+            )
+        }
+    )
+
+    const response = await response_http.json()
+    return response
+}
