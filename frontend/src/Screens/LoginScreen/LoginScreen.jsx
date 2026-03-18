@@ -12,6 +12,7 @@ const LoginScreen = () => {
         response, 
         loading
     } = useRequest()
+
     const LOGIN_FORM_FIELDS = {
         EMAIL: 'email',
         PASSWORD: 'password'
@@ -34,12 +35,12 @@ const LoginScreen = () => {
     }
 
     const {
-        handleChangeInput, 
-        onSubmit, 
+        handleChangeInput, //Funcion de cambio del input, debemos asociarlas a cada input
+        onSubmit, //Funcion que asociaremos al evento submit del formario
         formState
-    } = useForm({
-        initialFormState, 
-        submitFn: onLogin
+    } = useForm({ //Usamos useForm cada vez que tengamos que capurar campos de un formulario (Manejo de formularios)
+        initialFormState,  //Estado incial del formulario
+        submitFn: onLogin //Funcion que se activa al enviar formulario
     })
 
     console.log(
@@ -80,6 +81,8 @@ const LoginScreen = () => {
                 <button type="submit">Iniciar sesion</button>
             </form>
             <span>No tienes una cuenta? <Link to="/register">Registrarse</Link></span>
+            <br/>
+            <span>Olvidaste tu contraseña? <Link to="/reset-password-request">Restablecer</Link></span>
         </div>
     )
 }
