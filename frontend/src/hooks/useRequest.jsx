@@ -22,6 +22,7 @@ function useRequest (){
     Recibe una funcion que emita un consulta al servidor por parametro (Callback)
     */
     async function sendRequest( {requestCb} ){
+        console.log('hola')
         try{
             setResponse(null) //Si habia una consulta anterior quiero limpiar la respuesta
             setError(null) //Si habia una consulta anterior quiero limpiar el error
@@ -31,6 +32,7 @@ function useRequest (){
             setResponse(response) //Se guarda la respuesta
         }
         catch(error){
+            console.log(error)
             setError(error) //Se guarda el error
         }
         finally{
