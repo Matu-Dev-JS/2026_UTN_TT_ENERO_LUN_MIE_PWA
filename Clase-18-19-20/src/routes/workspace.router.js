@@ -11,7 +11,7 @@ import authMiddleware from '../middlewares/authMiddleware.js'
 const workspaceRouter = Router()
 
 workspaceRouter.get(
-    '/api/workspace',
+    '/',
     authMiddleware,
     workspaceController.getWorkspaces
 )

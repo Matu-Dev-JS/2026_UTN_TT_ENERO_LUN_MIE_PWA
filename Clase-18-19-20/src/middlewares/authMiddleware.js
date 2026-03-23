@@ -6,6 +6,9 @@ function authMiddleware(request, response, next) {
     try {
         //El token se envia en el header de authorization NORMALMENTE
         const auth_header = request.headers.authorization
+        if(!auth_header){
+            throw new ServerError('Token faltante', 401)
+        }
 
         //Extraigo del header el token
         const auth_token = auth_header.split(' ')[1]
@@ -23,7 +26,7 @@ function authMiddleware(request, response, next) {
     }
     catch (error) {
         if( error instanceof jwt.JsonWebTokenError ){
-            return res.status(401).json(
+            return response.status(401).json(
                 {
                     ok: false,
                     status: 401,
@@ -33,7 +36,7 @@ function authMiddleware(request, response, next) {
         }
         //Errores esperables en el sistema
         if (error instanceof ServerError) {
-            return res.status(error.status).json(
+            return response.status(error.status).json(
                 {
                     ok: false,
                     status: error.status,
@@ -43,7 +46,7 @@ function authMiddleware(request, response, next) {
         }
         else {
             console.error('Error inesperado en el registro', error)
-            return res.status(500).json(
+            return response.status(500).json(
                 {
                     ok: false,
                     status: 500,

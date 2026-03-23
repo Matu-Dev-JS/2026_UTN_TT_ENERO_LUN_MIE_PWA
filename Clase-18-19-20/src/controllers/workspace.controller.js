@@ -1,12 +1,24 @@
 import ServerError from "../helpers/error.helper.js"
+import workspaceMemberRepository from "../repository/member.repository.js"
 
 class WorkspaceController {
-    getWorkspaces(request, response) {
+    async getWorkspaces(request, response) {
         try {
             //Cliente consultante
             const user = request.user
 
             //Traer la lista de espacios de trabajo asociados al usuario
+            const workspaces = await workspaceMemberRepository.getWorkspaceListByUserId(user.id)
+            response.json(
+                {
+                    ok: true, 
+                    status: 200,
+                    message: 'Espacios de trabajo obtenidos',
+                    data: {
+                        workspaces
+                    }
+                }
+            )
         }
         catch (error) {
             //Errores esperables en el sistema

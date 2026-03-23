@@ -64,6 +64,29 @@ class WorkspaceMemberRepository {
         console.log(members_mapped)
         return members_mapped
     }
+
+    async getWorkspaceListByUserId(user_id){
+
+        //Toda la lista de miembros donde el usuario sea miembro
+        const members = await WorkspaceMember.find({fk_id_user: user_id})
+        .populate('fk_id_workspace')
+
+        const members_mapped = members.map(
+            (member) => {
+                return {
+                    member_id: member._id,
+                    member_role: member.role,
+                    member_created_at: member.created_at,
+                    
+                    workspace_id: member.fk_id_workspace._id,
+                    workspace_title: member.fk_id_workspace.title,
+                    workspace_description: member.fk_id_workspace.description
+                }
+            }
+        )
+
+        return members_mapped
+    }
 }
 const workspaceMemberRepository = new WorkspaceMemberRepository()
 export default workspaceMemberRepository
