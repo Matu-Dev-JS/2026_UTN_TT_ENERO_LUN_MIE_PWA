@@ -1,6 +1,11 @@
 import { createContext, useState } from "react";
 
-export const AuthContext = createContext()
+export const AuthContext = createContext(
+    {
+        isLogged: false,
+        saveToken: (auth_token) => {}
+    }
+)
 
 const LOCALSTORAGE_TOKEN_KEY = 'auth_token_slack'
 
@@ -26,7 +31,7 @@ function AuthContextProvider ({children}){
         isLogged,
         saveToken
     }
-    console.log(isLogged)
+
     return (
         <AuthContext.Provider value={providerValues}>
             {children}

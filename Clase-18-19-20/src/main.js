@@ -6,11 +6,12 @@ import WorkspaceMember from "./models/workspaceMember.model.js"
 import workspaceMemberRepository from "./repository/member.repository.js"
 import userRepository from "./repository/user.repository.js"
 import workspaceRepository from "./repository/workspace.repository.js"
-import express from 'express';
+import express, { response } from 'express';
 import healthRouter from "./routes/health.router.js"
 import authRouter from "./routes/auth.router.js"
 import mailerTransporter from "./config/mailer.config.js"
 import cors from 'cors'
+import authMiddleware from "./middlewares/authMiddleware.js"
 
 
 connectMongoDB()
@@ -29,6 +30,15 @@ Delegamos las consultas que vengan sobre '/api/health' al healthRouter
 */
 app.use('/api/health', healthRouter)
 app.use('/api/auth', authRouter)
+
+app.get(
+    '/api/test', 
+    authMiddleware, 
+    (request, response) => {
+        const {user} = request
+        response.send('ok, vos sos: ' + user.id)
+    }
+)
 
 app.listen(
     ENVIRONMENT.PORT, 
