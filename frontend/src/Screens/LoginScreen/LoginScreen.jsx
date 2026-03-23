@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router'
 import useForm from '../../hooks/useForm'
 import { login } from '../../services/authService'
 import useRequest from '../../hooks/useRequest'
+import { AuthContext } from '../../context/AuthContext'
 
 const LoginScreen = () => {
 
@@ -22,6 +23,8 @@ const LoginScreen = () => {
         [LOGIN_FORM_FIELDS.EMAIL]: '',
         [LOGIN_FORM_FIELDS.PASSWORD]: ''
     }
+
+    const {saveToken} = useContext(AuthContext)
 
     function onLogin (formState){
         sendRequest({
@@ -49,6 +52,20 @@ const LoginScreen = () => {
             error,
             loading
         }
+    )
+
+    /* 
+    La funcion se carga cada vez que cambie response
+    */
+    useEffect(
+        () => {
+            //Si la respuesta es correcta
+            if(response && response.ok){
+                //Guardo el token en mi contexto
+                saveToken(response.data.auth_token)
+            }
+        },
+        [response]
     )
 
    
