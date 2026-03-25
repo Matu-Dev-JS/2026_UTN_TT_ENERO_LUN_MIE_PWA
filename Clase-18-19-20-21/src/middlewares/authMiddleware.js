@@ -5,7 +5,7 @@ import ServerError from '../helpers/error.helper.js'
 function authMiddleware(request, response, next) {
     try {
         //El token se envia en el header de authorization NORMALMENTE
-        const auth_header = request.headers.authorization
+        const auth_header = request.headers.authorization //'Bearer token'
         if(!auth_header){
             throw new ServerError('Token faltante', 401)
         }

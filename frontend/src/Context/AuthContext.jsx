@@ -7,7 +7,7 @@ export const AuthContext = createContext(
     }
 )
 
-const LOCALSTORAGE_TOKEN_KEY = 'auth_token_slack'
+export const LOCALSTORAGE_TOKEN_KEY = 'auth_token_slack'
 
 /* 
 Va a manejar el estado de sesion del usuario
