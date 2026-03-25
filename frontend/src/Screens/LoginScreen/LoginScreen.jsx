@@ -24,7 +24,7 @@ const LoginScreen = () => {
         [LOGIN_FORM_FIELDS.PASSWORD]: ''
     }
 
-    const {saveToken} = useContext(AuthContext)
+    const {manageLogin} = useContext(AuthContext)
 
     function onLogin (formState){
         sendRequest({
@@ -62,14 +62,14 @@ const LoginScreen = () => {
             //Si la respuesta es correcta
             if(response && response.ok){
                 //Guardo el token en mi contexto
-                saveToken(response.data.auth_token)
+                manageLogin(response.data.auth_token)
             }
         },
         [response]
     )
 
    
-
+    console.log(formState)
 
     return (
         <div>

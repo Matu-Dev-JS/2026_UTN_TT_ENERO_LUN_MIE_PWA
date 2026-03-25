@@ -1,9 +1,10 @@
 import { createContext, useState } from "react";
+import { useNavigate } from "react-router";
 
 export const AuthContext = createContext(
     {
         isLogged: false,
-        saveToken: (auth_token) => {}
+        manageLogin: (auth_token) => {}
     }
 )
 
@@ -15,21 +16,24 @@ Es un contexto global
     Esto es asi porque queremos desde cualquier lugar de la aplicacion saber si el usuario esta o no logueado
 */
 function AuthContextProvider ({children}){
+    const navigate = useNavigate()
     const [isLogged, setIsLogged] = useState(
         Boolean(
             localStorage.getItem(LOCALSTORAGE_TOKEN_KEY)
         )
     )
 
-    function saveToken (auth_token){
+    function manageLogin (auth_token){
         //Guardar el auth_token en el localstorage
         localStorage.setItem('auth_token_slack', auth_token)
         setIsLogged(true)
+        //Redirecciono a home
+        navigate('/home')
     }
 
     const providerValues = {
         isLogged,
-        saveToken
+        manageLogin
     }
 
     return (

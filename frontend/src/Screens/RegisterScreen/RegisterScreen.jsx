@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router'
+import React, { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router'
 import useForm from '../../hooks/useForm'
 import useRequest from '../../hooks/useRequest'
 import { register } from '../../services/authService'
@@ -50,6 +50,16 @@ const RegisterScreen = () => {
 
     }
     const { handleChangeInput, onSubmit, formState } = useForm({ initialFormState, submitFn: onRegister })
+    const navigate = useNavigate()
+    useEffect (
+        () => {
+            if(response && response.ok){
+                alert('Te has registrado exitosamente, te enviamos un mail con instrucciones')
+                navigate('/login')
+            }
+        },
+        [response]
+    )
 
     return (
         <div>
