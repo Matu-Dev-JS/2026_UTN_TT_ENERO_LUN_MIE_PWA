@@ -1,16 +1,38 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { getWorkspaces } from '../../services/workspaceService'
+import useRequest from '../../hooks/useRequest'
+import { Link } from 'react-router'
+import useWorkspaces from '../../hooks/useWorkspaces'
 
 const HomeScreen = () => {
 
-  /* 
-  Manejar la respuesta del servidor con useRequest o hook de preferencia
-  Representar los estados en la pantalla, en especial el cargando y la lista de espacios de trabajo
-  Cada espacio de trabajo debera mostrar el titulo y un link que diga 'abrir workspace' y lleve hacia '/workspace/:id_workspace
-  */
-  getWorkspaces()
+  const {response, loading, error, workspaces} = useWorkspaces()
+
+ 
   return (
-    <div>HomeScreen</div>
+    <div>
+      <h1>Bienvenido, seleccione su espacio de trabajo</h1>
+      {
+        loading && <span>Cargando</span>
+      }
+      {
+        !loading && workspaces && <div>
+          {
+          workspaces.length === 0
+          ? <span>No hay espacios de trabajo</span>
+          : workspaces.map(
+            (workspace) => {
+              return (
+                <div key={workspace.workspace_id}>
+                  <h2>{workspace.workspace_title}</h2>
+                  <Link to={'/workspace/' + workspace.workspace_id}>Abrir espacio de trabajo</Link>
+                </div>
+              )
+            }
+          )}
+        </div>
+      }
+    </div>
   )
 }
 

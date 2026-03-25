@@ -13,6 +13,5 @@ export async function getWorkspaces (){
     )
 
     const response = await response_http.json()
-    console.log(response)
     return response
 }
